@@ -140,4 +140,42 @@ class FirebaseDataManager {
   }
 }
 
-// نسخة جاهزة للاستخدام (للت
+// نسخة جاهزة للاستخدام (للتوافق)
+const dataManager = new FirebaseDataManager();
+
+// دوال للتحقق من صحة البيانات
+function validateProduct(product) {
+  const errors = [];
+  
+  if (!product.name || product.name.trim().length < 2) {
+    errors.push('اسم المنتج يجب أن يكون على الأقل حرفين');
+  }
+  
+  if (!product.price || product.price < 0) {
+    errors.push('السعر يجب أن يكون رقم موجب');
+  }
+  
+  if (!product.image || !isValidUrl(product.image)) {
+    errors.push('رابط الصورة غير صالح');
+  }
+  
+  return errors;
+}
+
+function isValidUrl(string) {
+  try {
+    new URL(string);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
+// تصدير الدوال للاستخدام العام
+window.dataHelpers = {
+  getSize,
+  getSizeDetails,
+  getAgeFromSize,
+  validateProduct,
+  isValidUrl
+};
